@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Veri Kaydı</title>
+  <script type="module">
+    // Firebase SDK’ları
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Firebase config (BURAYI KENDİ PROJENE GÖRE DOLDUR)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDW39VUQysAEl-QINYAMPQzhzaZqemmnXM",
+    authDomain: "bilmem2422.firebaseapp.com",
+    projectId: "bilmem2422",
+    storageBucket: "bilmem2422.firebasestorage.app",
+    messagingSenderId: "1010562640953",
+    appId: "1:1010562640953:web:e7011f472edcf7e01b31e8",
+    measurementId: "G-1XGPGXRGTD"
+  };
+
+    // Firebase başlat
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Form gönderildiğinde veriyi kaydet
+    window.submitForm = async () => {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      try {
+        await addDoc(collection(db, "kullanicilar"), {
+          isim: name,
+          eposta: email,
+          zaman: new Date()
+        });
+        alert("Veri kaydedildi!");
+      } catch (e) {
+        console.error("Hata:", e);
+        alert("Hata oluştu.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <h2>Kullanıcı Kaydı</h2>
+  <input type="text" id="name" placeholder="Adınız"><br><br>
+  <input type="email" id="email" placeholder="E-posta"><br><br>
+  <button onclick="submitForm()">Gönder</button>
+</body>
+</html>
